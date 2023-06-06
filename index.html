@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+        color: white;
+        background-color: rgb(28, 19, 82);
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+    }
+    .box{
+        justify-content: center;
+        display: flex;
+        background-color: darkslateblue;
+        padding: 20px 20px 20px 20px;
+    }
+    ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: rgb(16, 11, 48);
+        position: -webkit-sticky; /* Safari */
+        position: sticky;
+        top: 0;
+        font-size: 20px;
+    }
+
+    li {
+        float: left;
+    }
+
+    li a {
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+    }
+
+    li a:hover {
+        background-color: #111;
+    }
+
+    .active {
+        background-color:#3c216d;
+    }
+    </style>
+</head>
+<body>
+    
+    <div class="header">
+        <img src="xenofobia.gif" alt="" width="100%" height="200px" style="max-height: 200px;">
+    </div>
+
+    <ul>
+        <li><a class="active" href="parteIII.html">Diálogo</a></li>
+        <li><a href="parteIII.html">Site</a></li>
+      </ul>
+
+    <h3 style="background-color: rgb(16, 11, 48);padding: 10px 10px 10px 10px; ">🟣 Vídeo</h3>
+    <div class="box">
+        <video src="Trabalho.mp4" width="85%" controls style="max-width: 100%;"></video>
+    </div>
+</body>
+</html>
