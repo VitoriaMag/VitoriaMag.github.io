@@ -1,0 +1,112 @@
+
+* {
+    margin: 0;
+    padding: 0;
+}
+body {
+    background-color: rgb(28, 19, 82);
+    color: white;
+    font-family: 'Merriweather', 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: rgb(16, 11, 48);
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    top: 0;
+    font-size: 20px;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover {
+    background-color: #111;
+}
+
+.active {
+    background-color:#3c216d;
+}
+.sig{
+    background-color: #3c216d4d;
+    padding: 10px 10px 10px 10px;
+    border-left: 15px solid #3c216d ; 
+    margin-left: 2%;
+    margin-right: 2%;
+}
+.dialogos {
+    background-color: darkslateblue;
+    width: 85%;
+    height: 100%;
+    margin-left: 5%;
+    margin-right: 10%;  
+    padding-left: 2%;
+    padding-right: 2%;
+    padding-bottom: 3%;
+}
+
+.paulista {
+    background-color: #3c216d;
+    border-radius: 10px;
+    float: left;
+    width: 60%;
+    padding: 20px;
+    margin: 30px;
+    
+}
+.p img {
+    width: 55px;
+    height: 55px;
+    border-radius: 60px;
+    float: left; 
+    border: solid #3c216d 5px;
+}
+.p {
+    width: 55%;
+    float: left;
+}
+.cear {
+    background-color: #2d0774;
+    border-radius: 10px;
+    float: right;
+    width: 60%;
+    padding: 20px;
+    margin: 30px;
+}
+.c img {
+    width: 62px;
+    height:62px;
+    border-radius: 60px;
+    float: right;
+    border:solid #2d0774 5px;
+}
+
+.c {
+    width: 55%;
+    float: right;
+}
+p {
+    color: white;
+    font-size: 22px;
+    font-family: 'Merriweather', 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+video {
+    padding-top: 7%;
+    padding-bottom: 4%;
+}
+#cron{
+    margin-left: 5%;
+    margin-right: 6%;
+}
