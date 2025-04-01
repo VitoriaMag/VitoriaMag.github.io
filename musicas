@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bungee+Tint&display=swap" rel="stylesheet">
+    <title>Teleprompter Simples</title>
+    <style>
+            body {
+            font-family: Arial, sans-serif;
+             color:#fbffcd;
+            text-align: center;
+            overflow: hidden;
+            background-color:#001f36;
+        }
+        #textContainer {
+            width: 80%;
+            margin: 20px auto;
+            padding: 10px;
+            white-space: pre-wrap;
+            background: #f9f9f9;
+            font-size: 20px;
+            line-height: 1.6;
+          background-color:#1c5560;
+          border-radius: 10px;
+          border: 2px solid #73AD21;
+        }
+        textarea {
+            width: 80%;
+            height: 100px;
+            margin: 10px 0;
+          background-color:#1c5560;
+          border-radius: 10px;
+          border: 2px solid #73AD21;
+          color:#fbffcd;
+        }
+        #controls {
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+          color:#2c6b74;
+       
+        }
+        #savedTexts {
+            margin: 10px auto;
+          border-radius: 10px;
+          padding: 10px;
+          background-color:#2c6b74;
+          color:#fbffcd;
+          border: 2px solid #73AD21
+        }
+button{
+  border: 2px solid #73AD21;
+  border-radius: 10px;
+          padding: 10px;
+          background-color:#2c6b74;
+          color:#fbffcd;
+}
+#textTitle{
+  background-color:#001f36;
+  border:0 none;
+   font-family: "Bungee Tint", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  text-align: center;
+}
+    </style>
+</head>
+<body>
+   <header>
+  <h1>🥁<input type="text" id="textTitle" placeholder="Titulo" ondblclick="renameText()">🥁</h1>
+  <button onclick="saveText()">Salvar Texto</button>
+    <select id="savedTexts" onchange="loadText()">
+        <option value="">Selecione um texto salvo</option>
+    </select>
+    <button onclick="deleteText()">Excluir Texto</button>
+</header>
+    <textarea id="textInput" placeholder="Digite seu texto aqui..."></textarea>
+    
+    <div id="textContainer"></div>
+    
+    <div id="controls">
+        <button onclick="startScrolling()">Play</button>
+        <button onclick="stopScrolling()">Pause</button>
+        <button onclick="goToTop()">Voltar ao Início</button>
+        <input type="range" id="speedControl" min="1" max="10" value="5">
+        <label for="speedControl">Velocidade</label>
+    </div>
+    
+    <script>
+        let scrollInterval;
+        let speed = 5;
+        let isScrolling = false;
+        
+        document.getElementById('speedControl').addEventListener('input', function() {
+            speed = 11 - this.value; // Inverte para que 10 seja o mais rápido
+            if (isScrolling) {
+                restartScrolling();
+            }
+        });
+        
+        document.getElementById('textInput').addEventListener('input', function() {
+            updateText();
+        });
+        
+        function updateText() {
+            const textContainer = document.getElementById('textContainer');
+            textContainer.innerHTML = document.getElementById('textInput').value.replace(/\n/g, '<br>');
+        }
+        
+        function startScrolling() {
+            if (isScrolling) return;
+            isScrolling = true;
+            document.body.style.height = '200vh'; // Aumenta a altura para permitir rolagem
+            window.scrollTo(0, 0);
+            updateText();
+            restartScrolling();
+        }
+        
+        function restartScrolling() {
+            clearInterval(scrollInterval);
+            scrollInterval = setInterval(() => {
+                window.scrollBy(0, 1);
+            }, speed * 10);
+        }
+        
+        function stopScrolling() {
+            clearInterval(scrollInterval);
+            isScrolling = false;
+        }
+        
+        function goToTop() {
+            window.scrollTo(0, 0);
+            stopScrolling();
+        }
+        
+        function handleInteraction() {
+            stopScrolling();
+            document.removeEventListener('mousemove', handleInteraction);
+            document.removeEventListener('click', handleInteraction);
+            document.removeEventListener('wheel', handleInteraction);
+            document.removeEventListener('keydown', handleInteraction);
+        }
+        
+        document.addEventListener('mousemove', handleInteraction);
+        document.addEventListener('click', handleInteraction);
+        document.addEventListener('wheel', handleInteraction);
+        document.addEventListener('keydown', handleInteraction);
+        
+        function saveText() {
+            let textTitle = document.getElementById('textTitle').value.trim();
+            let textContent = document.getElementById('textInput').value;
+            if (!textTitle || !textContent) return;
+            let texts = JSON.parse(localStorage.getItem('savedTexts')) || {};
+            texts[textTitle] = textContent;
+            localStorage.setItem('savedTexts', JSON.stringify(texts));
+            loadSavedTexts();
+        }
+        
+        function renameText() {
+            let texts = JSON.parse(localStorage.getItem('savedTexts')) || {};
+            let oldTitle = document.getElementById('savedTexts').value;
+            if (!oldTitle) return;
+            let newTitle = prompt("Digite o novo nome para o texto:", oldTitle);
+            if (newTitle && newTitle.trim() !== "" && newTitle !== oldTitle) {
+                texts[newTitle] = texts[oldTitle];
+                delete texts[oldTitle];
+                localStorage.setItem('savedTexts', JSON.stringify(texts));
+                loadSavedTexts();
+                document.getElementById('savedTexts').value = newTitle;
+                document.getElementById('textTitle').value = newTitle;
+            }
+        }
+        
+        function loadSavedTexts() {
+            let texts = JSON.parse(localStorage.getItem('savedTexts')) || {};
+            let select = document.getElementById('savedTexts');
+            select.innerHTML = '<option value="">Selecione um texto salvo</option>';
+            for (let key in texts) {
+                let option = document.createElement('option');
+                option.value = key;
+                option.textContent = key;
+                select.appendChild(option);
+            }
+        }
+        
+        function loadText() {
+            let texts = JSON.parse(localStorage.getItem('savedTexts')) || {};
+            let selectedKey = document.getElementById('savedTexts').value;
+            if (selectedKey) {
+                document.getElementById('textTitle').value = selectedKey;
+                document.getElementById('textInput').value = texts[selectedKey];
+                updateText();
+            }
+        }
+        
+        function deleteText() {
+            let texts = JSON.parse(localStorage.getItem('savedTexts')) || {};
+            let selectedKey = document.getElementById('savedTexts').value;
+            if (selectedKey && confirm(`Tem certeza que deseja excluir "${selectedKey}"?`)) {
+                delete texts[selectedKey];
+                localStorage.setItem('savedTexts', JSON.stringify(texts));
+                loadSavedTexts();
+                document.getElementById('textTitle').value = "";
+                document.getElementById('textInput').value = "";
+                updateText();
+            }
+        }
+        
+        window.onload = loadSavedTexts;
+    </script>
+</body>
+</html>
